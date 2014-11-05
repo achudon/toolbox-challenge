@@ -3,15 +3,126 @@
     <head lang="en">
     <meta charset="UTF-8">
     <title>Memory!</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css"/>
     </head>
     <body>
-        <h1>Memory!</h1>
-        <p id="elapsed-seconds"></p>
-        <div id="game-board"></div>
+        <header>
+            <h1>MEMORY... <div id="tagline">How good is yours?</div></h1>
+        </header>
+
+     <main class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+            <section id="stats">
+                <div class="buttons">
+                    <button id="rules" type="button" class="btn btn-primary">Game Rules</button>
+                    <button id="new-game" type="button" class="btn btn-success">New Game</button>
+                </div>
+                <h2>Your Statistics:</h2>
+
+                <h3>Matches: <span class="stat" id="matches">0</span></h3>
+               
+
+                <h3>Misses: <div class="stat" id="missed">0</div></h3>
+
+
+                <h3>Remaining: <div class="stat" id="remaining">8</div></h3>
+
+
+                <h2>Elapsed Time: </h2>
+                <p id="elapsed-seconds">0s</p>
+
+            </section>
+            </div>
+
+            <div class="col-md-6">
+                <div id="game-board"></div>
+            </div>
+        </div>
+     </main>
+    <div class="modal fade" id="rules-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Game Rules</h4>
+                </div>
+                <div class="modal-body">
+                    <p>The rules of the game are as follows: <br/>
+                        Click on any card to turn it over. <br/>
+                        Remember what is on the card and where it is. <br/>
+                        Click on a second card. <br/><br/>
+                        If the cards match, you will see your matches go up! <br/>
+                        Otherwise, keep trying until you find a match. <br/>
+                        <strong>You win when all cards have been matched!</strong>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary resume-timer" data-dismiss="modal">OK, I'm ready to play!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="new-game-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">New Game?</h4>
+                    </div>
+                    <div class="modal-body">
+                       <p> Are you sure you would like to quit this game and start a new one? </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default resume-timer" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="new-game-button">Yes, start new game!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="welcome-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">WELCOME TO MEMORY!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Hello and welcome! </p>
+                        <p>To get started, click "OK" below and then click on any tile!</p>
+                        <p>To view game rules, click on "Game Rules".</p>
+                        <p>To start a new game, click on "New Game".</p>
+                        <p>Have fun testing your memory!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="win-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">YOU WON!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Congrats, you won!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="play-again-button">Play again!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </body>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <script src="js/app.js"></script>
 </html>
