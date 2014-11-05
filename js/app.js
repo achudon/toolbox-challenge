@@ -34,7 +34,11 @@ $(document).ready(function() {
 
     $('.resume-timer').click(function () {
         console.log(startTime + 'starttime');
-        startTimer();
+        if ((parseInt($('#elapsed-seconds').text().slice(0,2)) == 0)) {
+            first = true; // the player hasn't started the game yet, so the timer will start when they click on a tile
+        } else {
+            startTimer(); // the player has already started, so resume timer where they left off
+        }
     });
 
     // show welcome dialog
@@ -71,8 +75,7 @@ function startTimer() {
     var time = _.now();
     timer = window.setInterval(function () {
         // floor trims off the decimal part of any decimal number
-        var elapsedSeconds = Math.floor((_.now() - time) / 1000);
-        // var elapsedSeconds = Math.floor(((_.now() - time) + startTime)  / 1000);
+        var elapsedSeconds = Math.floor((_.now() - time) / 1000) + startTime;
         console.log(elapsedSeconds);
         $('#elapsed-seconds').text(elapsedSeconds+'s');
     }, 1000);
@@ -81,7 +84,6 @@ function startTimer() {
 // stop the timer and save its value
 function stopTimer() {
     startTime = parseInt($('#elapsed-seconds').text().slice(0,2));
-    console.log(startTime);
     window.clearInterval(timer);
 }
 
@@ -89,6 +91,8 @@ function stopTimer() {
 // a gameboard with different tiles
 function newGame() {
     stopTimer();
+    $('#elapsed-seconds').text(0+'s');
+
     $('#game-board').empty();
 
     remaining = 8; // remaining matches
@@ -162,16 +166,15 @@ function newGame() {
 function flipTile(img) {
     var tile = img.data('tile');
 
-    img.fadeOut(150, function () {
+    img.fadeOut(200, function () {
         if (tile.flipped) {
             img.attr('src', 'img/tile-back.png');
         } else {
             img.attr('src', tile.src);
         }
-        img.fadeIn(150);
+        img.fadeIn(200);
         tile.flipped = !tile.flipped;
     }); // after fadeOut
-
 }
 
 // enforce game rules after user chooses tile
