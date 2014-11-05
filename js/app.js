@@ -72,6 +72,7 @@ function startTimer() {
     timer = window.setInterval(function () {
         // floor trims off the decimal part of any decimal number
         var elapsedSeconds = Math.floor((_.now() - time) / 1000);
+        // var elapsedSeconds = Math.floor(((_.now() - time) + startTime)  / 1000);
         console.log(elapsedSeconds);
         $('#elapsed-seconds').text(elapsedSeconds+'s');
     }, 1000);
@@ -159,13 +160,13 @@ function newGame() {
 function flipTile(img) {
     var tile = img.data('tile');
 
-    img.fadeOut(200, function () {
+    img.fadeOut(150, function () {
         if (tile.flipped) {
             img.attr('src', 'img/tile-back.png');
         } else {
             img.attr('src', tile.src);
         }
-        img.fadeIn(200);
+        img.fadeIn(150);
         tile.flipped = !tile.flipped;
     }); // after fadeOut
 
