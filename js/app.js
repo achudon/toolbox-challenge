@@ -71,8 +71,7 @@ function startTimer() {
     var time = _.now();
     timer = window.setInterval(function () {
         // floor trims off the decimal part of any decimal number
-        var sec = (_.now() - time) / 1000;
-        var elapsedSeconds = Math.floor();
+        var elapsedSeconds = Math.floor((_.now() - time) / 1000);
         console.log(elapsedSeconds);
         $('#elapsed-seconds').text(elapsedSeconds+'s');
     }, 1000);
@@ -99,8 +98,6 @@ function newGame() {
     acceptClicks = true; // allow user to click on a tile
     won = false; // set "user has won" to false
     startTime = 0; // set value that timer starts with
-
-    $('#elapsed-seconds').text(0+'s');
 
     updateStats(); // reset stats to default value on webpage
 
