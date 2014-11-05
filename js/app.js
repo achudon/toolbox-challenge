@@ -131,7 +131,9 @@ function newGame() {
         }
         img = $(document.createElement('img'));
         var pageHeight = $(window).height();
-        var dimension = (pageHeight*4)/24; // adjust tile size so that they all fit on the screen
+        var pageWidth = $(window).width();
+
+        var dimension = Math.min(((pageHeight*4)/24), ((pageWidth*4)/24)); // adjust tile size so that they all fit on the screen
         img.attr('height', dimension);
         img.attr('width', dimension);
         img.attr({
