@@ -43,15 +43,12 @@ header {
     padding-left: 40px;
 }
 
-
-
 .container-fluid {
     margin-right: 40px;
     margin-left: 40px;
 }
 
 #tagline {
-    display: inline;
     font-size: 10px;
 }
 

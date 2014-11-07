@@ -1,16 +1,14 @@
 "use strict";
 
-// global variables (there are many)
-var tiles;
-var matches;
-var missed;
-var remaining;
-var firstImg;
-var acceptClicks;
-var won;
-var timer;
-var first;
-var startTime;
+var tiles; // collection of tiles in the game
+var matches; // number of matches that the user has made
+var missed; // number of misses that the user has made
+var remaining; // number of matches remaining
+var firstImg; // first image clicked on in a turn
+var acceptClicks; // whether or not clicks are currently being processed
+var timer; // timer object
+var first; // whether or not this is the first turn of the game
+var startTime; // what value the timer should start with
 
 // when the page loads, create the game board and add click handlers
 $(document).ready(function() {
@@ -20,6 +18,7 @@ $(document).ready(function() {
     first = true; // first click of game
     var idx;
 
+    // create tiles with each of the unique images
     for (idx = 1; idx <= 32; ++idx) {
         tiles.push({
             tileNum: idx,
@@ -32,6 +31,7 @@ $(document).ready(function() {
     // start new game
     newGame();
 
+    // start the timer again
     $('.resume-timer').click(function () {
         console.log(startTime + 'starttime');
         if ((parseInt($('#elapsed-seconds').text().slice(0,2)) == 0)) {
@@ -98,14 +98,15 @@ function newGame() {
     remaining = 8; // remaining matches
     matches = 0; // matches made by user
     missed = 0; // matches missed by user
-    first = true;
-    firstImg = null; // no tile has been clicked yet
+    first = true; // no tile has been clicked yet
+    firstImg = null;
     acceptClicks = true; // allow user to click on a tile
-    won = false; // set "user has won" to false
+//    won = false; // set "user has won" to false
     startTime = 0; // set value that timer starts with
 
     updateStats(); // reset stats to default value on webpage
 
+//    shuffle tiles
     var shuffled = _.shuffle(tiles);
     console.log(shuffled);
 
@@ -128,7 +129,6 @@ function newGame() {
     // first parameter is actual array element. Second parameter is array index of array element
     // passed by Lo-Dash-- you don't have to accept second parameter
     _.forEach(tilePairs, function(tile, elemIndex) {
-        // programming trick for double equal comparisons
         if (elemIndex > 0 && 0 == elemIndex % 4) {
             gameBoard.append(row);
             row = $(document.createElement('div'));
@@ -137,7 +137,8 @@ function newGame() {
         var pageHeight = $(window).height();
         var pageWidth = $(window).width();
 
-        var dimension = Math.min(((pageHeight*4)/24), ((pageWidth*4)/24)); // adjust tile size so that they all fit on the screen
+        var dimension = Math.min(((pageHeight*4)/24), ((pageWidth*4)/24)); // adjust tile size
+                                                                           // so that they all fit on the screen
         img.attr('height', dimension);
         img.attr('width', dimension);
         img.attr({
@@ -160,7 +161,7 @@ function newGame() {
             takeTurn($(this));
         }
     }); // on click of gameboard images
-} // end of new Game method
+} // end of newGame method
 
 // flip a tile over so that the other image shows
 function flipTile(img) {
@@ -175,7 +176,7 @@ function flipTile(img) {
         img.fadeIn(200);
         tile.flipped = !tile.flipped;
     }); // after fadeOut
-}
+} // end of flipTile function
 
 // enforce game rules after user chooses tile
 function takeTurn(img) {
@@ -188,12 +189,13 @@ function takeTurn(img) {
         } else { // this is the second tile clicked on
             acceptClicks = !acceptClicks; // make sure no other clicks are read
             if (checkMatch(img)) { // check if tiles match, if so, set so they can't be flipped again
+                matches++; // update statistics
+                remaining--;
+
                 setTimeout(function() {
                     changeStyle(firstImg, 'right-match');
                     changeStyle(img, 'right-match');
                 }, 10);
-                matches++; // update statistics
-                remaining--;
 
                 setTimeout (function() {
                     firstImg = null; // reset to new turn
@@ -201,12 +203,12 @@ function takeTurn(img) {
 
                 }, 200);
             } else {
+                missed++;
                 setTimeout(function() {
                     changeStyle(firstImg, 'wrong-match');
                     changeStyle(img, 'wrong-match');
                 }, 201);
 
-                missed++;
                 setTimeout(function () {
                     flipTile(firstImg);
                     flipTile(img);
@@ -219,7 +221,6 @@ function takeTurn(img) {
 
                     firstImg = null;
                     acceptClicks = true;
-                    updateStats(); // update all statistics: matches, remaining, missed
                 }, 1000);
             }
             updateStats(); // update all statistics: matches, remaining, missed
@@ -230,6 +231,7 @@ function takeTurn(img) {
     }
 }
 
+// change the class of an image (takes 2 parameters: an image object and a class name as a string)
 function changeStyle(img, style) {
     img.attr('class', style);
 }
@@ -257,7 +259,7 @@ function updateStats() {
     $('#remaining').text(' ' + remaining);
 }
 
-// stops timer, shows congratulatory message
+// stop timer, show congratulatory message
 function gameWon() {
     stopTimer();
     $('#win-modal').modal();
